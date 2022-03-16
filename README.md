@@ -1,6 +1,6 @@
 # WSAPI
 
-An abstraction to add RESTful functionality to websockets, with PID / timestamp information, request timeout and schema.
+An abstraction to add RESTful functionality to websockets, with PID / timestamp information and request timeout.
 
 **This is client-side only.**
 
@@ -16,30 +16,30 @@ import { WSAPI } from 'wsapi'
 const ws = new WSAPI()
 await ws.open('ws://localhost:9092')
 
-// GET=GET
-// =======
+// Equivalent to GET (get)
+// =======================
 
 ws.get('/object') // get a structure
 
-// ADD=POST
-// ========
+// Equivalent to POST (add)
+// ========================
 
 ws.add('/object/list', { foo: 'bar' }) // add an element of an object or array
 
-// SET=PUT
-// =======
+// Equivalent to PUT (set)
+// =======================
 
-ws.set('/endpoint/list', [ { foo: 'bar' } ] ) // set an entire structure
+ws.set('/object/list', [ { foo: 'bar' } ] ) // set an entire structure
 
-// UPDATE=PATCH
-// ============
+// Equivalent to PATCH (update)
+// ============================
 
-ws.update('/endpoint/list/42', { hello: 'world' } ) // update properties of a structure
+ws.update('/object/list/42', { hello: 'world' } ) // update properties of a structure
 
-// REMOVE=DELETE
-// =============
+// Equivalent to DELETE (remove)
+// =============================
 
-ws.remove('/endpoint/list/42') // remove an element of an object or array
+ws.remove('/object/list/42') // remove an element of an object or array
 
 ```
 
