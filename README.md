@@ -6,7 +6,7 @@ An abstraction to add RESTful functionality to WebSockets API, to create request
 
 Your WebSockets server should implement the logic for WSAPI, with an example given in `test/server.js`.
 
-This logic is pretty much: *return the same timestamp*.
+Server logic is pretty much: *return the same timestamp*.
 
 ## Methods
 
