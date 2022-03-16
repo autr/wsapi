@@ -79,7 +79,7 @@ const res = await ws.get( '/hello-world', { foo: 'bar' }, {
 
 An outgoing WebSockets message will always be formatted and stringified JSON like so:
 
-```json
+```javascript
 {
 	"type": "set",
 	"pid": 1,
@@ -91,7 +91,7 @@ An outgoing WebSockets message will always be formatted and stringified JSON lik
 
 Server logic must return this same object in order for requests to *resolve*
 
-```json
+```javascript
 {
 	"type": "set",
 	"pid": 1,
@@ -101,7 +101,11 @@ Server logic must return this same object in order for requests to *resolve*
 }
 ```
 
-The timestamp is used to resolve requests when returned from the WebSockets server, so will always be unique. A **floating point** of `0.1` is added to the integer timestamp if it is one of multiple requests, ie:*
+## Unique Timestamps
+
+The timestamp is used to resolve requests when returned from the WebSockets server, so will always be unique. 
+
+A **floating point** of `0.1` is added to the integer timestamp if it is one of multiple requests:*
 
 ```bash
 
