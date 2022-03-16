@@ -89,7 +89,7 @@ An outgoing WebSockets message will always be formatted and stringified JSON lik
 }
 ```
 
-Server logic must return this same object in order for requests to *resolve*
+Server logic must return this same object in order for requests to *resolve* using the **timestamp**:
 
 ```javascript
 {
