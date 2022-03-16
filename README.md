@@ -2,36 +2,70 @@
 
 An abstraction to add RESTful functionality to websockets, with PID / timestamp information, request timeout and schema.
 
-**This is the clientside only.**
+**This is client-side only.**
 
-Your websockets server should implement the logic for WSAPI, with an example given in `server.js`.
+Your websockets server should implement the logic for WSAPI, with an example given in `test/server.js`.
 
-## API Methods
+## Methods
 
-Functions of WSAPI are designed to update a JSON tree, with RESTful equivalents like so:
+Functions of WSAPI are intended to update a JSON tree:
 
-* *get=GET* - get the JSON structure
-* *add=POST* - add an element to an object or array
-* *set=PUT* - set the entire JSON structure
-* *update=PATCH* - update properties of a JSON structure
-* *remove=DELETE* - delete an elment of an object or array
+```javascript
+import { WSAPI } from 'wsapi'
 
-## Usage
+const ws = new WSAPI()
+await ws.open('ws://localhost:9092')
+
+// GET=GET
+// =======
+
+ws.get('/object') // get a structure
+
+// ADD=POST
+// ========
+
+ws.add('/object/list', { foo: 'bar' }) // add an element of an object or array
+
+// SET=PUT
+// =======
+
+ws.set('/endpoint/list', [ { foo: 'bar' } ] ) // set an entire structure
+
+// UPDATE=PATCH
+// ============
+
+ws.update('/endpoint/list/42', { hello: 'world' } ) // update properties of a structure
+
+// REMOVE=DELETE
+// =============
+
+ws.remove('/endpoint/list/42') // remove an element of an object or array
+
+```
+
+*This functionality should be implemented on your server!*
+
+## Configuration
 
 Options can be set globally as well as on each request:
 
 ```javascript
 
-// GLOBAL
-// ======
+import { WSAPI, LOG_VERBOSE, LOG_SILENT, LOG_DEBUG } from 'wsapi'
 
-const ws = new WSAPI('ws://localhost:9092', {
+// GLOBAL OPTIONS
+// ==============
+
+const ws = new WSAPI({
 	timeout: 3000, // default is 3000ms, falsey argument means no response is expected,
-	pid: 1, // default is 1, any integer is accepted
+	pid: 1, // default is 1, any integer is accepted,
+	log: LOG_VERBOSE
 })
 
-// REQUEST
-// =======
+ws.open('ws://localhost:9092')
+
+// REQUEST OPTIONS
+// ===============
 
 const res = await ws.get( '/hello-world', { foo: 'bar' }, {
 	timeout: 1000, // overrides global option
@@ -40,46 +74,43 @@ const res = await ws.get( '/hello-world', { foo: 'bar' }, {
 })
 
 ```
-An outgoing WebSockets message will always be formatted as:
 
-```javascript
+## Schema & Timestamps
 
-// STRINGIFIED 
-// ===========
-// WebSockets.send()
+An outgoing WebSockets message will always be formatted and stringified JSON like so:
 
+```json
 {
 	"type": "set",
 	"pid": 1,
 	"path": "/entries/47",
-	"timestamp": 1647466021863.3,
+	"timestamp": 1647466021863.3, // important
 	"data": { "foo": "bar" }
 }
-
 ```
 
-WSAPI will generate a unique timestamp when a request is made.
+Server logic must return this same object in order for requests to *resolve*
 
-*This timestamp will be appended with a floating point if multiple requests are being made at the same time:*
+```json
+{
+	"type": "set",
+	"pid": 1,
+	"path": "/entries/47",
+	"timestamp": 1647466021863.3, // important
+	"data": "I received this, thanks!"
+}
+```
 
-```python
+The timestamp is used to resolve requests when returned from the WebSockets server, so will always be unique. A **floating point** of `0.1` is added to the integer timestamp if it is one of multiple requests, ie:*
 
-// BEFORE:
-// ======
+```bash
 
-GET /helloworld @ 1647466021863
-GET /helloworld @ 1647466021863
-GET /helloworld @ 1647466021863
-GET /helloworld @ 1647466021863
+// If I were to make multiple requests at the same time:
 
-// AFTER:
-// =====
-
-GET /helloworld @ 1647466021863
-GET /helloworld @ 1647466021863.1
-GET /helloworld @ 1647466021863.2
-GET /helloworld @ 1647466021863.3
-
+GET /helloworld @ 1647466021863 // 1st
+GET /helloworld @ 1647466021863 -> 1647466021863.1 // 2nd
+GET /helloworld @ 1647466021863 -> 1647466021863.2 // 3rd
+GET /helloworld @ 1647466021863 -> 1647466021863.3 // 4th
 
 ````
 
