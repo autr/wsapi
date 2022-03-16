@@ -1,6 +1,6 @@
 # WSAPI
 
-An abstraction to add RESTful functionality to WebSockets API, with PID / timestamp information and request timeout.
+An abstraction to add RESTful functionality to WebSockets API, using unique timestamps to create request responses.
 
 **This is client-side only.**
 
