@@ -105,7 +105,7 @@ Server logic must return this same object in order for requests to *resolve*
 
 The timestamp is used to resolve requests when returned from the WebSockets server, so will always be unique. 
 
-A **floating point** of `0.1` is added to the integer timestamp if it is one of multiple requests:*
+A **floating point** of `0.1` is added to the integer timestamp if it is one of multiple requests:
 
 ```bash
 
