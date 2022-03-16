@@ -61,7 +61,7 @@ import { WSAPI, LOG_VERBOSE, LOG_SILENT, LOG_DEBUG } from 'wsapi'
 const ws = new WSAPI({
 	timeout: 3000, // default is 3000ms, falsey argument means no response is expected,
 	pid: 1, // default is 1, any integer is accepted,
-	log: LOG_VERBOSE
+	log: LOG_VERBOSE // default is LOG_DEBUG
 })
 
 ws.open('ws://localhost:9092')
