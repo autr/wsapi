@@ -1,0 +1,8 @@
+{
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"client": "autoreload-server -d ./ -p 8080",
+		"server": "nodemon test/server.js"
+	}
+}
