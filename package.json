@@ -1,8 +1,34 @@
 {
-	"main": "index.js",
-	"type": "module",
-	"scripts": {
-		"client": "autoreload-server -d ./ -p 8080",
-		"server": "nodemon test/server.js"
-	}
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "client": "autoreload-server -d ./ -p 8080",
+    "server": "nodemon test/server.js"
+  },
+  "name": "wsapi",
+  "description": "An abstraction to add RESTful functionality to websockets, with PID / timestamp information, request timeout and schema.",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/autr/wsapi.git"
+  },
+  "keywords": [
+    "websockets",
+    "api",
+    "rest",
+    "crud"
+  ],
+  "author": "Gilbert Sinnott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/autr/wsapi/issues"
+  },
+  "homepage": "https://github.com/autr/wsapi#readme"
 }
